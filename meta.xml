@@ -1,0 +1,7 @@
+<meta>
+    <script src="settings.lua" type="client" />
+    <script src="client.lua" type="client" />
+    <script src="adminjail.lua" type="client" />
+    
+    <file src="roboto.ttf" />
+</meta>
