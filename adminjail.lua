@@ -9,8 +9,6 @@ editBox = {"", "", ""};
 local placeHolder = {"Játékos neve", "Időtartam", "Egyéb indok"};
 local displayText = {{"", 180}, {"", 180}, {"", 180}};
 
-local font = {dxCreateFont("roboto.ttf", 17)};
-
 local r1, g1, b1 = unpack(jailPanelColor);
 local r2, g2, b2 = unpack(inputColor);
 
@@ -19,7 +17,7 @@ addEventHandler("onClientRender", getRootElement(), function()
         dxDrawRectangle(panelPos[1] - 5, panelPos[2] - 5, width + 10, height + 10, tocolor(0, 0, 0, 150));
         dxDrawRectangle(panelPos[1], panelPos[2], width, height, tocolor(0, 0, 0, 100));
         
-        dxDrawText("Játékos bebörtönzése", panelPos[1] + 370*rX, panelPos[2] + 15*rY, panelPos[1] + 370*rX, panelPos[2] + 15*rY, tocolor(255, 255, 255), 1*rX, font[1], "center", "center");
+        dxDrawText("Játékos bebörtönzése", panelPos[1] + 370*rX, panelPos[2] + 15*rY, panelPos[1] + 370*rX, panelPos[2] + 15*rY, tocolor(255, 255, 255), 1*rX, font, "center", "center");
             
         dxDrawRectangle(panelPos[1] + 7.5*rX, panelPos[2] + 30*rY, 735*rX, 2, tocolor(r1, g1, b1, 200));
         dxDrawRectangle(panelPos[1] + 7.5*rX, panelPos[2] + 120*rY, 735*rX, 2, tocolor(r1, g1, b1, 200));
@@ -34,15 +32,15 @@ addEventHandler("onClientRender", getRootElement(), function()
         dxDrawEditBox(displayText[1][1], selectedEdit[1], panelPos[1] + 187.5*rX, panelPos[2] + 60*rY, 350*rX, 30*rY, displayText[1][2]);
             
         for i = 1, 4 do
-            dxDrawEditBox(jailReasons[i][1], jailReasons[i][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 150*rY, dxGetTextWidth(jailReasons[i][1], 1, font[1]) + 10*rX, 30*rY, 255);
+            dxDrawEditBox(jailReasons[i][1], jailReasons[i][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 150*rY, dxGetTextWidth(jailReasons[i][1], 1*rX, font) + 10*rX, 30*rY, 255);
         end
             
         for i = 1, 4 do
-            dxDrawEditBox(jailReasons[i+4][1], jailReasons[i+4][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 200*rY, dxGetTextWidth(jailReasons[i+4][1], 1, font[1]) + 10*rX, 30*rY, 255);
+            dxDrawEditBox(jailReasons[i+4][1], jailReasons[i+4][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 200*rY, dxGetTextWidth(jailReasons[i+4][1], 1*rX, font) + 10*rX, 30*rY, 255);
         end
             
         for i = 1, 4 do
-            dxDrawEditBox(jailReasons[i+8][1], jailReasons[i+8][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 250*rY, dxGetTextWidth(jailReasons[i+8][1], 1, font[1]) + 10*rX, 30*rY, 255);
+            dxDrawEditBox(jailReasons[i+8][1], jailReasons[i+8][2], panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 250*rY, dxGetTextWidth(jailReasons[i+8][1], 1*rX, font) + 10*rX, 30*rY, 255);
         end
             
         dxDrawEditBox(displayText[3][1], selectedEdit[3], panelPos[1] + 30*rX, panelPos[2] + 325*rY, 450*rX, 30*rY, displayText[3][2]);
@@ -92,7 +90,7 @@ end, 1000, 0)
 function dxDrawEditBox(text, active, x, y, w, h, a)
     dxDrawRectangle(x, y, w, h, tocolor(0, 0, 0, isCursorHover(x, y, w, h) and 100 or 0));
     
-    dxDrawText(text, x + w/2, y + h/2, x + w/2, y + h/2, tocolor(255, 255, 255, a), 1, font[1], "center", "center");
+    dxDrawText(text, x + w/2, y + h/2, x + w/2, y + h/2, tocolor(255, 255, 255, a), 1*rX, font, "center", "center", false, false, false, false, true);
     
     dxDrawRectangle(x, y + h, w, 2, tocolor(r2, g2, b2, active and 200 or 0));
 end
