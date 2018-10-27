@@ -10,7 +10,7 @@ local clickedX, clickedY = false, false;
 
 local r, g, b = unpack(menuColor);
 
-font = dxCreateFont("roboto.ttf", 17);
+font = {dxCreateFont("roboto.ttf", 17), dxCreateFont("roboto.ttf", 12)};
 
 local buttonSettings = {
     {"Felélesztés", false},
@@ -21,18 +21,25 @@ local buttonSettings = {
 
 addEventHandler("onClientRender", getRootElement(), function()
     if menuShowing then
-        dxDrawRectangle(clickedX - 10*rX, clickedY - 5*rY, width + 10*rX, height + 10*rY, tocolor(0, 0, 0, 150));
-        dxDrawRectangle(clickedX - 5*rX, clickedY, width, height, tocolor(0, 0, 0, 100));
+        local x, y, z = getElementPosition(localPlayer);
+        local px, py, pz = getElementPosition(playerElement);
             
-        dxDrawText(playerName, clickedX + 90*rX, clickedY + 20*rY, clickedX + 90*rX, clickedY + 20*rY, tocolor(255, 255, 255), 1*rX, font, "center", "center", false, false, false, false, true);
+        if getDistanceBetweenPoints3D(x, y, z, px, py, pz) > 10 then
+            menuShowing = false
+        end
+            
+        dxDrawRectangle(clickedX - 10, clickedY - 5, width + 10, height + 10, tocolor(0, 0, 0, 150));
+        dxDrawRectangle(clickedX - 5, clickedY, width, height, tocolor(0, 0, 0, 100));
+            
+        dxDrawText(playerName, clickedX + 90*rX, clickedY + 20*rY, clickedX + 90*rX, clickedY + 20*rY, tocolor(255, 255, 255), 1*rX, font[1], "center", "center", false, false, false, false, true);
         
         dxDrawRectangle(clickedX + 2.5*rX, clickedY + 40*rY, 175*rX, 2*rY, tocolor(r, g, b, 200));
         
         for i = 1, #buttonSettings do
-            dxDrawRectangle(clickedX - 5*rX, clickedY + (42*i + 10)*rY, width, 32*rY, tocolor(0, 0, 0, buttonSettings[i][2] and 100 or 0));
-            dxDrawText(buttonSettings[i][1], clickedX + 90*rX, clickedY + (42*i + 25)*rY, clickedX + 90*rX, clickedY + (42*i + 27.5)*rY, tocolor(255, 255, 255), buttonSettings[i][2] and 0.75*rX or 0.68*rX, font, "center", "center", false, false, false, false, true);
+            dxDrawRectangle(clickedX - 5, clickedY + (42*i + 10)*rY, width, 32*rY, tocolor(0, 0, 0, buttonSettings[i][2] and 100 or 0));
+            dxDrawText(buttonSettings[i][1], clickedX + 90*rX, clickedY + (42*i + 25)*rY, clickedX + 90*rX, clickedY + (42*i + 27.5)*rY, tocolor(255, 255, 255), buttonSettings[i][2] and 1*rX or 0.9*rX, font[2], "center", "center", false, false, false, false, true);
             
-            if isCursorHover(clickedX - 5*rX, clickedY + (42*i + 10)*rY, width, 32*rY) then
+            if isCursorHover(clickedX - 5, clickedY + (42*i + 10)*rY, width, 32*rY) then
                 buttonSettings[i][2] = true;
             else
                 buttonSettings[i][2] = false;
@@ -45,6 +52,10 @@ addEventHandler("onClientClick", getRootElement(), function(button, state, absol
     if state == "down" then
         if button == "right" then
             if clickedElement and getElementType(clickedElement) == "player" then
+                local x, y, z = getElementPosition(localPlayer);
+                local px, py, pz = getElementPosition(clickedElement);
+                if getDistanceBetweenPoints3D(x, y, z, px, py, pz) > 10 or localPlayer == clickedElement then return end
+                    
                 local height = height + 5*rY;
                 local absoluteX = absoluteX + 10*rX
                 local absoluteY = absoluteY + 5*rY
@@ -73,15 +84,15 @@ addEventHandler("onClientClick", getRootElement(), function(button, state, absol
                     selectedEdit[3] = true;
                 else
                     for i = 1, 4 do
-                        if isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 150*rY, dxGetTextWidth(jailReasons[i][1], 1*rX, font) + 10*rX, 30*rY) then
+                        if isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 150*rY, dxGetTextWidth(jailReasons[i][1], 1, font[2]) + 10*rX, 30*rY) then
                             eraseReasons();
                             jailReasons[i][2] = true;
                             break;
-                        elseif isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 200*rY, dxGetTextWidth(jailReasons[i+4][1], 1*rX, font) + 10*rX, 30*rY) then
+                        elseif isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 200*rY, dxGetTextWidth(jailReasons[i+4][1], 1, font[2]) + 10*rX, 30*rY) then
                             eraseReasons();
                             jailReasons[i+4][2] = true;
                             break;
-                        elseif isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 250*rY, dxGetTextWidth(jailReasons[i+8][1], 1*rX, font) + 10*rX, 30*rY) then
+                        elseif isCursorHover(panelPos[1] + (180*i - tValue)*rX, panelPos[2] + 250*rY, dxGetTextWidth(jailReasons[i+8][1], 1, font[2]) + 10*rX, 30*rY) then
                             eraseReasons();
                             jailReasons[i+8][2] = true;
                             break;
